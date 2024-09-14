@@ -1,26 +1,27 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate()
+	useEffect(() => {
+		if(!localStorage.getItem('token') && !store.token) navigate('/')
+	},[])
 
+	const handleLogout = () => {
+		store.token = '';
+		localStorage.removeItem('token')
+	}
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
+		<div className="container text-center mt-5">
+			<h1 className="text-danger">ESTA PÁGINA ES PRIVADA</h1>
+			<Link to={'/'}>
+			<button type="button" className="btn btn-danger" onClick={handleLogout}>
+				Log out
+			</button>
+			</Link>
 		</div>
 	);
 };
